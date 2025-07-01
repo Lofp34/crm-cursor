@@ -7,7 +7,13 @@ import { PipelineBoard } from '../components/pipeline/PipelineBoard'
 import { TasksList } from '../components/tasks/TasksList'
 import { useOnboarding, usePipelineManager } from '../hooks/useDatabase'
 import { seedDemoData } from '../lib/seedData'
-import type { Contact, Deal, Task } from '../types'
+import type { Contact, Task } from '../types'
+import { Modal } from '../components/ui/Modal'
+import AddContactForm from '../components/forms/AddContactForm'
+import AddDealForm from '../components/forms/AddDealForm'
+import AddTaskForm from '../components/forms/AddTaskForm'
+import ContactDetails from '../components/contacts/ContactDetails'
+import TaskDetails from '../components/tasks/TaskDetails'
 
 export default function Home() {
   const { activeTab, setActiveTab } = useTabNavigation()
@@ -19,7 +25,6 @@ export default function Home() {
   const [showAddDeal, setShowAddDeal] = useState(false)
   const [showAddTask, setShowAddTask] = useState(false)
   const [selectedContact, setSelectedContact] = useState<Contact | null>(null)
-  const [selectedDeal, setSelectedDeal] = useState<Deal | null>(null)
   const [selectedTask, setSelectedTask] = useState<Task | null>(null)
 
   // Initialisation des données de démonstration
@@ -60,7 +65,7 @@ export default function Home() {
         return (
           <PipelineBoard
             onAddDeal={() => setShowAddDeal(true)}
-            onDealSelect={setSelectedDeal}
+            onDealSelect={() => {}}
           />
         )
       case 'tasks':
@@ -97,71 +102,38 @@ export default function Home() {
       {/* Navigation en bas */}
       <TabBar activeTab={activeTab} onTabChange={setActiveTab} />
 
-      {/* TODO: Ajouter les modales pour les formulaires */}
       {/* Modal d'ajout de contact */}
-      {showAddContact && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-end justify-center z-50">
-          <div className="bg-white rounded-t-3xl w-full max-w-md max-h-[80vh] overflow-hidden animate-slide-up">
-            <div className="p-4">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-title-2 font-bold">Nouveau contact</h3>
-                <button
-                  onClick={() => setShowAddContact(false)}
-                  className="p-2 hover:bg-gray-100 rounded-xl transition-colors"
-                >
-                  ✕
-                </button>
-              </div>
-              <p className="text-body text-gray-500">
-                Formulaire d'ajout de contact à implémenter...
-              </p>
-            </div>
-          </div>
+      <Modal isOpen={showAddContact} onClose={() => setShowAddContact(false)}>
+        <div className="p-4 space-y-4">
+          <h3 className="text-title-2 font-bold mb-2">Nouveau contact</h3>
+          <AddContactForm onSuccess={() => setShowAddContact(false)} />
         </div>
-      )}
+      </Modal>
 
       {/* Modal d'ajout de deal */}
-      {showAddDeal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-end justify-center z-50">
-          <div className="bg-white rounded-t-3xl w-full max-w-md max-h-[80vh] overflow-hidden animate-slide-up">
-            <div className="p-4">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-title-2 font-bold">Nouveau deal</h3>
-                <button
-                  onClick={() => setShowAddDeal(false)}
-                  className="p-2 hover:bg-gray-100 rounded-xl transition-colors"
-                >
-                  ✕
-                </button>
-              </div>
-              <p className="text-body text-gray-500">
-                Formulaire d'ajout de deal à implémenter...
-              </p>
-            </div>
-          </div>
+      <Modal isOpen={showAddDeal} onClose={() => setShowAddDeal(false)}>
+        <div className="p-4 space-y-4">
+          <h3 className="text-title-2 font-bold mb-2">Nouveau deal</h3>
+          <AddDealForm onSuccess={() => setShowAddDeal(false)} />
         </div>
-      )}
+      </Modal>
 
       {/* Modal d'ajout de tâche */}
-      {showAddTask && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-end justify-center z-50">
-          <div className="bg-white rounded-t-3xl w-full max-w-md max-h-[80vh] overflow-hidden animate-slide-up">
-            <div className="p-4">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-title-2 font-bold">Nouvelle tâche</h3>
-                <button
-                  onClick={() => setShowAddTask(false)}
-                  className="p-2 hover:bg-gray-100 rounded-xl transition-colors"
-                >
-                  ✕
-                </button>
-              </div>
-              <p className="text-body text-gray-500">
-                Formulaire d'ajout de tâche à implémenter...
-              </p>
-            </div>
-          </div>
+      <Modal isOpen={showAddTask} onClose={() => setShowAddTask(false)}>
+        <div className="p-4 space-y-4">
+          <h3 className="text-title-2 font-bold mb-2">Nouvelle tâche</h3>
+          <AddTaskForm onSuccess={() => setShowAddTask(false)} />
         </div>
+      </Modal>
+
+      {/* Détails du contact */}
+      {selectedContact && (
+        <ContactDetails contact={selectedContact} onClose={() => setSelectedContact(null)} />
+      )}
+
+      {/* Détails de la tâche */}
+      {selectedTask && (
+        <TaskDetails task={selectedTask} onClose={() => setSelectedTask(null)} />
       )}
     </div>
   )
