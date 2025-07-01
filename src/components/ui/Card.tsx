@@ -6,9 +6,11 @@ interface CardProps {
   className?: string
   onClick?: () => void
   padding?: 'none' | 'sm' | 'md' | 'lg'
+  draggable?: boolean
+  onDragStart?: (e: React.DragEvent<HTMLDivElement>) => void
 }
 
-export function Card({ children, className, onClick, padding = 'md' }: CardProps) {
+export function Card({ children, className, onClick, padding = 'md', draggable = false, onDragStart }: CardProps) {
   const paddingStyles = {
     none: '',
     sm: 'p-3',
@@ -25,6 +27,8 @@ export function Card({ children, className, onClick, padding = 'md' }: CardProps
         className
       )}
       onClick={onClick}
+      draggable={draggable}
+      onDragStart={onDragStart}
     >
       {children}
     </div>

@@ -20,7 +20,7 @@ export default function AddContactForm({ onSuccess }: AddContactFormProps) {
   const [status, setStatus] = useState<ContactStatus>('warm')
   const [loading, setLoading] = useState(false)
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (!name.trim() || !email.trim()) return
 
@@ -48,17 +48,17 @@ export default function AddContactForm({ onSuccess }: AddContactFormProps) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      <Input label="Nom" value={name} onChange={(e) => setName(e.target.value)} required />
-      <Input label="E-mail" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-      <Input label="Téléphone" value={phone} onChange={(e) => setPhone(e.target.value)} />
-      <Input label="Société" value={company} onChange={(e) => setCompany(e.target.value)} />
+      <Input label="Nom" value={name} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)} required />
+      <Input label="E-mail" type="email" value={email} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)} required />
+      <Input label="Téléphone" value={phone} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPhone(e.target.value)} />
+      <Input label="Société" value={company} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setCompany(e.target.value)} />
 
       {/* Statut */}
       <div>
         <label className="block text-footnote font-medium text-gray-700 mb-1">Statut</label>
         <select
           value={status}
-          onChange={(e) => setStatus(e.target.value as ContactStatus)}
+          onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setStatus(e.target.value as ContactStatus)}
           className="w-full rounded-lg border border-gray-300 px-3 py-2 text-body focus:outline-none focus:ring-2 focus:ring-primary-500"
         >
           {statusOptions.map((opt) => (
