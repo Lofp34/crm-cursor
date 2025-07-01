@@ -27,7 +27,7 @@ export default function AddTaskForm({ onSuccess }: AddTaskFormProps) {
   })
   const [loading, setLoading] = useState(false)
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (!title.trim()) return
 
@@ -66,15 +66,15 @@ export default function AddTaskForm({ onSuccess }: AddTaskFormProps) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      <Input label="Titre" value={title} onChange={(e) => setTitle(e.target.value)} required />
-      <Textarea label="Description" value={description} onChange={(e) => setDescription(e.target.value)} />
+      <Input label="Titre" value={title} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)} required />
+      <Textarea label="Description" value={description} onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setDescription(e.target.value)} />
 
       {/* Contact associé */}
       <div>
         <label className="block text-subhead font-medium text-gray-700 mb-1">Contact</label>
         <select
           value={contactId}
-          onChange={(e) => setContactId(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setContactId(e.target.value)}
           className="w-full rounded-lg border border-gray-300 px-3 py-2 text-body focus:outline-none focus:ring-2 focus:ring-primary-500"
         >
           <option value="">-- Aucun --</option>
@@ -89,7 +89,7 @@ export default function AddTaskForm({ onSuccess }: AddTaskFormProps) {
         <label className="block text-subhead font-medium text-gray-700 mb-1">Deal</label>
         <select
           value={dealId}
-          onChange={(e) => setDealId(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setDealId(e.target.value)}
           className="w-full rounded-lg border border-gray-300 px-3 py-2 text-body focus:outline-none focus:ring-2 focus:ring-primary-500"
         >
           <option value="">-- Aucun --</option>
@@ -105,7 +105,7 @@ export default function AddTaskForm({ onSuccess }: AddTaskFormProps) {
           <label className="block text-subhead font-medium text-gray-700 mb-1">Type</label>
           <select
             value={type}
-            onChange={(e) => setType(e.target.value as TaskType)}
+            onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setType(e.target.value as TaskType)}
             className="w-full rounded-lg border border-gray-300 px-3 py-2 text-body focus:outline-none focus:ring-2 focus:ring-primary-500"
           >
             {typeOptions.map((o) => (
@@ -118,7 +118,7 @@ export default function AddTaskForm({ onSuccess }: AddTaskFormProps) {
           <label className="block text-subhead font-medium text-gray-700 mb-1">Priorité</label>
           <select
             value={priority}
-            onChange={(e) => setPriority(e.target.value as TaskPriority)}
+            onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setPriority(e.target.value as TaskPriority)}
             className="w-full rounded-lg border border-gray-300 px-3 py-2 text-body focus:outline-none focus:ring-2 focus:ring-primary-500"
           >
             {priorityOptions.map((o) => (
@@ -129,7 +129,7 @@ export default function AddTaskForm({ onSuccess }: AddTaskFormProps) {
       </div>
 
       {/* Due date */}
-      <Input label="Date d'échéance" type="date" value={dueDate} onChange={(e) => setDueDate(e.target.value)} />
+      <Input label="Date d'échéance" type="date" value={dueDate} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setDueDate(e.target.value)} />
 
       <Button type="submit" className="w-full" disabled={loading}>
         {loading ? 'Enregistrement...' : 'Ajouter la tâche'}

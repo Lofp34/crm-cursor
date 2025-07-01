@@ -22,7 +22,7 @@ export default function AddDealForm({ onSuccess }: AddDealFormProps) {
   const [description, setDescription] = useState('')
   const [loading, setLoading] = useState(false)
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (!title.trim() || !contactId) return
 
@@ -53,14 +53,14 @@ export default function AddDealForm({ onSuccess }: AddDealFormProps) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      <Input label="Titre" value={title} onChange={(e) => setTitle(e.target.value)} required />
+      <Input label="Titre" value={title} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)} required />
 
       {/* Contact associé */}
       <div>
         <label className="block text-subhead font-medium text-gray-700 mb-1">Contact</label>
         <select
           value={contactId}
-          onChange={(e) => setContactId(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setContactId(e.target.value)}
           required
           className="w-full rounded-lg border border-gray-300 px-3 py-2 text-body focus:outline-none focus:ring-2 focus:ring-primary-500"
         >
@@ -77,7 +77,7 @@ export default function AddDealForm({ onSuccess }: AddDealFormProps) {
         label="Valeur (€)"
         type="number"
         value={value}
-        onChange={(e) => setValue(e.target.value)}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue(e.target.value)}
       />
 
       {/* Étape du pipeline */}
@@ -85,7 +85,7 @@ export default function AddDealForm({ onSuccess }: AddDealFormProps) {
         <label className="block text-subhead font-medium text-gray-700 mb-1">Étape</label>
         <select
           value={stage}
-          onChange={(e) => setStage(e.target.value as DealStage)}
+          onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setStage(e.target.value as DealStage)}
           className="w-full rounded-lg border border-gray-300 px-3 py-2 text-body focus:outline-none focus:ring-2 focus:ring-primary-500"
         >
           {stageOptions.map((opt) => (
@@ -100,10 +100,10 @@ export default function AddDealForm({ onSuccess }: AddDealFormProps) {
         label="Probabilité (%)"
         type="number"
         value={probability}
-        onChange={(e) => setProbability(e.target.value)}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setProbability(e.target.value)}
       />
 
-      <Textarea label="Description" value={description} onChange={(e) => setDescription(e.target.value)} />
+      <Textarea label="Description" value={description} onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setDescription(e.target.value)} />
 
       <Button type="submit" className="w-full" disabled={loading}>
         {loading ? 'Enregistrement...' : 'Ajouter le deal'}

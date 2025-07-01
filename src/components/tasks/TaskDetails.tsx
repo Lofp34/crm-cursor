@@ -45,9 +45,9 @@ export default function TaskDetails({ task, onClose }: TaskDetailsProps) {
     <Modal isOpen={!!task} onClose={onClose}>
       <div className="p-4 space-y-4">
         <h3 className="text-title-2 font-bold">Détails de la tâche</h3>
-        <Input label="Titre" value={title} onChange={(e) => setTitle(e.target.value)} />
-        <Textarea label="Description" value={description} onChange={(e) => setDescription(e.target.value)} />
-        <Input label="Date d'échéance" type="date" value={dueDate} onChange={(e) => setDueDate(e.target.value)} />
+        <Input label="Titre" value={title} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)} />
+        <Textarea label="Description" value={description} onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setDescription(e.target.value)} />
+        <Input label="Date d'échéance" type="date" value={dueDate} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setDueDate(e.target.value)} />
 
         <div className="flex space-x-2">
           <Button className="flex-1" onClick={handleSave} disabled={loading}>Enregistrer</Button>
