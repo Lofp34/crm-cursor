@@ -50,7 +50,7 @@ export function useContacts() {
       .filter(contact => 
         contact.name.toLowerCase().includes(query.toLowerCase()) ||
         contact.email.toLowerCase().includes(query.toLowerCase()) ||
-        (contact.company && contact.company.toLowerCase().includes(query.toLowerCase()))
+        (!!contact.company && contact.company.toLowerCase().includes(query.toLowerCase()))
       )
       .toArray()
     
@@ -78,12 +78,13 @@ export function useDeals() {
 
   const loadDeals = useCallback(async () => {
     try {
-      const allDeals = await db.deals
+      const allDealsRaw = await db.deals
         .where('isArchived')
         .equals(0)
-        .orderBy('updatedAt')
-        .reverse()
         .toArray()
+
+      // Tri par date de mise à jour décroissante
+      const allDeals = allDealsRaw.sort((a: Deal, b: Deal) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime())
       setDeals(allDeals)
     } catch (error) {
       console.error('Error loading deals:', error)
